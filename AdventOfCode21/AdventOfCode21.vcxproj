@@ -140,6 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AdventOfCode21.cpp" />
+    <ClCompile Include="Problem1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Problem.h" />
+    <ClInclude Include="Problem1.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
