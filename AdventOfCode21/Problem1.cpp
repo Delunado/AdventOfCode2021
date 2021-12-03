@@ -16,6 +16,8 @@ void Problem1::LoadProblem(std::string filepath) {
 
 			_depthMeasures.push_back(nextMeasure);
 		}
+
+		file.close();
 	}
 	else {
 		std::cout << "Can't open file " << filepath << std::endl;
