@@ -5,6 +5,11 @@
 
 class Problem3 : public Problem
 {
+	enum class ComparisonType {
+		MOST_COMMON,
+		LEAST_COMMON
+	};
+
 private:
 	static const int BITS_NUMBER = 12;
 
@@ -14,7 +19,7 @@ private:
 
 	int PowerConsumption();
 	int LifeSupportRating();
-	int CalculateOxygenRating();
+	int FindValuableBitset(int valuableBit, ComparisonType comparisonType);
 	int CalculateC02Rating();
 
 public:

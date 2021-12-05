@@ -55,94 +55,62 @@ int Problem3::PowerConsumption()
 }
 
 int Problem3::LifeSupportRating() {
-	return CalculateOxygenRating() * CalculateC02Rating();
+	//First is the Oxygen Rating, second is the C02 Rating.
+	return FindValuableBitset(1, ComparisonType::MOST_COMMON) * FindValuableBitset(0, ComparisonType::LEAST_COMMON);
 }
 
-int Problem3::CalculateOxygenRating()
+int Problem3::FindValuableBitset(int valuableBit, ComparisonType comparisonType)
 {
-	std::vector<std::bitset<BITS_NUMBER>> bitsetsDataOxygen = bitsetsData;
-
-	int bit0appearance = 0;
-	int mostRepeatedBit = 0;
+	std::vector<std::bitset<BITS_NUMBER>> bitsetsDataCopy = bitsetsData;
 
 	for (int i = 0; i < BITS_NUMBER; i++) {
+		//We need this because when we access to bitset[i], we are accessing the position from "back" to "start", NOT as when
+		//we access a vector. In "00101", bitset[0] = 1, no 0.
+		int nextBitIndex = BITS_NUMBER - i - 1;
 
-		//First, we search for the number of 0s.
-		for (int j = 0; j < bitsetsDataOxygen.size(); j++) {
-			if (bitsetsDataOxygen[j][i] == 0) {
-				bit0appearance++;
+		int valuableBitAppearance = 0;
+
+
+		//First, we search for the number of valuable bits appearances.
+		for (int j = 0; j < bitsetsDataCopy.size(); j++) {
+			if (bitsetsDataCopy[j][nextBitIndex] == valuableBit) {
+				valuableBitAppearance++;
 			}
 		}
 
-		//Here, we determine the most repeated bit in the loop
-		if (bit0appearance <= bitsetsDataOxygen.size() / 2) {
-			mostRepeatedBit = 1;
+
+		//Here, we determine the most or least repeated valuable bit in the loop.
+		int compareToBit;
+
+		//The following valuableBitAppearance * 2 is done to avoid the integer rounding on division. 
+		if (comparisonType == ComparisonType::LEAST_COMMON) {
+			compareToBit = (valuableBitAppearance * 2 <= (bitsetsDataCopy.size())) ? valuableBit : 1 - valuableBit;
+		}
+		else {
+			compareToBit = (valuableBitAppearance * 2 >= (bitsetsDataCopy.size())) ? valuableBit : 1 - valuableBit;
 		}
 
 
 		//Then, we clean the data. The MOST COMMON for Oxygen.
-		for (int j = bitsetsDataOxygen.size() - 1; j >= 0; j--) {
-			if (bitsetsDataOxygen[j][i] != mostRepeatedBit) {
-				bitsetsDataOxygen.erase(bitsetsDataOxygen.begin() + j); //Posible error?
-			}
-		}
+		bitsetsDataCopy.erase(
+			std::remove_if(bitsetsDataCopy.begin(), bitsetsDataCopy.end(),
+				[nextBitIndex, compareToBit](std::bitset<BITS_NUMBER> bitset) {
+					return bitset[nextBitIndex] != compareToBit;
+				}),
 
-		bit0appearance = 0;
-		mostRepeatedBit = 0;
+			bitsetsDataCopy.end()
+		);
 
-		if (bitsetsDataOxygen.size() == 1) {
+		if (bitsetsDataCopy.size() == 1) {
 			break;
 		}
 	}
 
-	//Finally, we process the result.
-	std::bitset<BITS_NUMBER> oxygenBitset = bitsetsDataOxygen[0];
-	std::cout << oxygenBitset << std::endl;
-
-	return oxygenBitset.to_ulong();
-}
-
-int Problem3::CalculateC02Rating()
-{
-	std::vector<std::bitset<BITS_NUMBER>> bitsetsDataC02 = bitsetsData;
-
-	int bit0appearance = 0;
-	int leastRepeatedBit = 1;
-
-	for (int i = 0; i < BITS_NUMBER; i++) {
-
-		//First, we search for the most repeated value.
-		for (int j = 0; j < bitsetsDataC02.size(); j++) {
-			if (bitsetsDataC02[j][i] == 0) {
-				bit0appearance++;
-			}
-		}
-
-		//Here, we determine the least repeated bit in the loop
-		if (bit0appearance <= bitsetsDataC02.size() / 2) {
-			leastRepeatedBit = 0;
-		}
-
-		//Then, we clean the data. The LEAST COMMON for CO2.
-		for (int j = bitsetsDataC02.size() - 1; j >= 0; j--) {
-			if (bitsetsDataC02[j][i] != leastRepeatedBit) {
-				bitsetsDataC02.erase(bitsetsDataC02.begin() + j); //Posible error?
-			}
-		}
-
-		bit0appearance = 0;
-		leastRepeatedBit = 1;
-
-		if (bitsetsDataC02.size() == 1) {
-			break;
-		}
-	}
 
 	//Finally, we process the result.
-	std::bitset<BITS_NUMBER> C02Bitset = bitsetsDataC02[0];
-	std::cout << C02Bitset << std::endl;
+	std::bitset<BITS_NUMBER> finalBitset = bitsetsDataCopy[0];
 
-	return C02Bitset.to_ulong();
+	return finalBitset.to_ulong();
 }
 
 void Problem3::Resolve()
