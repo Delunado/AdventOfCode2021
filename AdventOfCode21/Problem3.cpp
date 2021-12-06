@@ -1,6 +1,6 @@
 #include "Problem3.h"
 
-Problem3::Problem3(std::string filepath) : bitsetsData(std::vector<std::bitset<BITS_NUMBER>>())
+Problem3::Problem3(std::string filepath) : _bitsetsData(std::vector<std::bitset<BITS_NUMBER>>())
 {
 	LoadProblem(filepath);
 }
@@ -17,7 +17,7 @@ void Problem3::LoadProblem(std::string filepath)
 
 			std::bitset<BITS_NUMBER> nextBitset(nextBitsetStr);
 
-			bitsetsData.push_back(nextBitset);
+			_bitsetsData.push_back(nextBitset);
 		}
 
 		file.close();
@@ -32,9 +32,9 @@ int Problem3::PowerConsumption()
 	//Here we will count all the appearances of the bit '0'.
 	int bits0appearance[BITS_NUMBER]{ 0 };
 
-	for (int i = 0; i < bitsetsData.size(); i++) {
-		for (int j = 0; j < bitsetsData[i].size(); j++) {
-			if (bitsetsData[i][j] == 0) {
+	for (int i = 0; i < _bitsetsData.size(); i++) {
+		for (int j = 0; j < _bitsetsData[i].size(); j++) {
+			if (_bitsetsData[i][j] == 0) {
 				bits0appearance[j]++;
 			}
 		}
@@ -45,7 +45,7 @@ int Problem3::PowerConsumption()
 	for (int i = 0; i < BITS_NUMBER; i++) {
 		int bit0appearance = bits0appearance[i];
 
-		gammaRate[i] = bit0appearance > bitsetsData.size() / 2 ? 0 : 1;
+		gammaRate[i] = bit0appearance > _bitsetsData.size() / 2 ? 0 : 1;
 	}
 
 	std::bitset<BITS_NUMBER> epsilonRate(gammaRate);
@@ -61,7 +61,7 @@ int Problem3::LifeSupportRating() {
 
 int Problem3::FindValuableBitset(int valuableBit, ComparisonType comparisonType)
 {
-	std::vector<std::bitset<BITS_NUMBER>> bitsetsDataCopy = bitsetsData;
+	std::vector<std::bitset<BITS_NUMBER>> bitsetsDataCopy = _bitsetsData;
 
 	for (int i = 0; i < BITS_NUMBER; i++) {
 		//We need this because when we access to bitset[i], we are accessing the position from "back" to "start", NOT as when

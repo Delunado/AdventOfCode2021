@@ -13,14 +13,13 @@ class Problem3 : public Problem
 private:
 	static const int BITS_NUMBER = 12;
 
-	std::vector<std::bitset<BITS_NUMBER>> bitsetsData;
+	std::vector<std::bitset<BITS_NUMBER>> _bitsetsData;
 
 	void LoadProblem(std::string filepath) override;
 
 	int PowerConsumption();
 	int LifeSupportRating();
 	int FindValuableBitset(int valuableBit, ComparisonType comparisonType);
-	int CalculateC02Rating();
 
 public:
 	Problem3(std::string filepath);
