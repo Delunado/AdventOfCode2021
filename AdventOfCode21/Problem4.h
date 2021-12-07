@@ -1,5 +1,6 @@
 #pragma once
 #include "Problem.h"
+#include <sstream>
 #include <vector>
 
 struct BingoNumber {
@@ -30,10 +31,14 @@ private:
 	std::vector<BingoBoard> _bingoBoards;
 	std::vector<int> _randomNumbers;
 
+	//Here we will load the Bingo Boards
 	void LoadProblem(std::string filepath) override;
 
+	//here we will load hte Random Numbers
+	void LoadProblemRandomNumbers(std::string filepath);
+
 public:
-	Problem4(std::string filepath);
+	Problem4(std::string filepath, std::string randomNumbersFilepath);
 
 	void Resolve() override;
 };

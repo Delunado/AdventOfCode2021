@@ -28,6 +28,6 @@ int main()
 
     std::cout << "\n-Problem 4-\n";
 
-    Problem4 problem4("problem4.txt");
+    Problem4 problem4("problem4BingoBoards.txt", "problem4RandomNumbers.txt");
     problem4.Resolve();
 }
