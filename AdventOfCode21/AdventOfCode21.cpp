@@ -6,6 +6,7 @@
 #include "Problem2.h"
 #include "Problem3.h"
 #include "Problem4.h"
+#include "Problem5.h"
 
 int main()
 {
@@ -30,4 +31,9 @@ int main()
 
     Problem4 problem4("problem4BingoBoards.txt", "problem4RandomNumbers.txt");
     problem4.Resolve();
+
+    std::cout << "\n-Problem 5-\n";
+
+    Problem5 problem5("problem5.txt");
+    problem5.Resolve();
 }

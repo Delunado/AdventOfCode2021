@@ -2,6 +2,7 @@
 #include "Problem.h"
 #include <bitset>
 #include <vector>
+#include <algorithm>
 
 class Problem3 : public Problem
 {
